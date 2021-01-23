@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="150dp"
+    android:layout_height="220dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="13dp"
+    app:cardElevation="3dp"
+    app:contentPadding="8dp">
+
+    <ImageView
+        android:id="@+id/ivHomeSongAlbum"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:background="@drawable/isplas"
+        app:srcCompat="@drawable/isplas" />
+
+    <TextView
+        android:id="@+id/tvHomeSongs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="155dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#333"
+        android:textSize="12sp" />
+</androidx.cardview.widget.CardView>
