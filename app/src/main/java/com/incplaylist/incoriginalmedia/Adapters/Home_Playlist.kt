@@ -54,12 +54,15 @@ class Home_Playlist(private val context: Context) : PagerAdapter() {
 
             val activity = context as AppCompatActivity
             activity.supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left)
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left,R.anim.exit_to_right)
                     .replace(R.id.flFragments, fragment).addToBackStack(null).commit()
         }
+
         container.addView(view)
         return view
 
 
     }
+
+
 }

@@ -71,7 +71,7 @@ class FetchData (
 
 
 
-                Log.e("dumaan na ba dito", "oo")
+
 
             }
         }
@@ -101,7 +101,7 @@ class FetchData (
             folder.mkdir()
         }
         val file = File("$folder/result.txt")
-        Log.e("filedir", file.toString())
+
         try {
             val fos = FileOutputStream(file, false)
             fos.write(content.toByteArray())

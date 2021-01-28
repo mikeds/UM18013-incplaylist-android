@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.incplaylist.incoriginalmedia.Fragments.*
@@ -200,12 +202,9 @@ class Home : AppCompatActivity(),Fragment_Settings.onSelectThemeListener, MediaP
     }
 
     fun fadeout(view: View) {
-        setContentView(R.layout.activity_home)
         val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
-        tvDownloadMusic.setOnClickListener {
-            tvDownloadMusic.visibility = View.GONE
-            tvDownloadMusic.startAnimation(fadeOut)
-        }
+        tvDownloadMusic.visibility = View.GONE
+        tvDownloadMusic.startAnimation(fadeOut)
     }
 
     @SuppressLint("HandlerLeak")
@@ -224,6 +223,9 @@ class Home : AppCompatActivity(),Fragment_Settings.onSelectThemeListener, MediaP
         intent.putExtra("action", action)
         startService(intent)
     }
+
+
+
 
     override fun onResume() {
         super.onResume()
@@ -435,6 +437,7 @@ class Home : AppCompatActivity(),Fragment_Settings.onSelectThemeListener, MediaP
         activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.flFragments, fragment).commit()
     }
+
 
 
 

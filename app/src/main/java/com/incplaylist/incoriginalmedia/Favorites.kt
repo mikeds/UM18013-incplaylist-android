@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -70,17 +72,47 @@ class Favorites {
             val PlaylistTracksArray = JSONArray(PlaylistData.getString("tracks"))
 
 
-
             val newPlaylistTracksData = JSONArray()
             for (j in 0 until PlaylistTracksArray.length()){
                 val PlaylistTracksData = PlaylistTracksArray.getJSONObject(j)
                 if (PlaylistTracksData.getString("id") == id){
+                    var favorites = JSONArray()
+                    try {
+                        favorites = JSONArray(storage.getFavorites(context)!!)
+                    }catch (e:JSONException){}
+
                     title = PlaylistTracksData.getString("title")
                     PlaylistTracksData.put("favorited", isFavorited)
                     PlaylistTracksData.put("downloadable", downloadable)
+
                     if (isFavorited == "true"){
                         PlaylistTracksData.put("expiration", expireTime)
                     }
+                    val newFaves = JSONArray()
+                    if (isFavorited =="false" && downloadable == "0"){
+                        for (k in 0 until favorites.length()){
+                            if (favorites.getJSONObject(k).getString("id") != id){
+                                newFaves.put(favorites.getJSONObject(k))
+                            }
+                        }
+                        storage.favorites(context, newFaves.toString())
+                    }
+
+                    if (isFavorited =="true" && downloadable == "1"){
+                        favorites.put(PlaylistTracksData)
+                        storage.favorites(context, favorites.toString())
+                    }
+
+                    if (isFavorited == "true" && downloadable == "0"){
+                        for (k in 0 until favorites.length()){
+                            if (favorites.getJSONObject(k).getString("id") == id){
+                                favorites.put(k, PlaylistTracksData)
+                            }
+                        }
+                        storage.favorites(context, favorites.toString())
+                    }
+
+
                 }
                 newPlaylistTracksData.put(PlaylistTracksData)
             }
@@ -107,7 +139,7 @@ class Favorites {
             folder.mkdir()
         }
         val file = File("$folder/result3.txt")
-        Log.e("filedir", file.toString())
+
         try {
             val fos = FileOutputStream(file, false)
             fos.write(content.toByteArray())

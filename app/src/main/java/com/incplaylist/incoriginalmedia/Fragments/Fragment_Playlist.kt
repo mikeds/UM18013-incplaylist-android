@@ -1,10 +1,13 @@
 package com.incplaylist.incoriginalmedia.Fragments
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.incplaylist.incoriginalmedia.Adapters.Playlist_Tracks
@@ -12,6 +15,7 @@ import com.incplaylist.incoriginalmedia.R
 import com.incplaylist.incoriginalmedia.Storage
 import kotlinx.android.synthetic.main.fragment_playlist.view.*
 import org.json.JSONObject
+
 
 class Fragment_Playlist : Fragment(R.layout.fragment_playlist) {
     var intent = JSONObject()
@@ -32,4 +36,7 @@ class Fragment_Playlist : Fragment(R.layout.fragment_playlist) {
     fun playlistData(context:Context, jsonObject: JSONObject){
         intent = jsonObject
     }
+
+
+
 }

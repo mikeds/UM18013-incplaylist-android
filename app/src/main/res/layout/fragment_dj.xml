@@ -76,6 +76,21 @@
                         android:textSize="20sp" />
                 </RelativeLayout>
 
+                <com.incplaylist.incoriginalmedia.customwave.DrawView
+                    android:id="@+id/root_adjust"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/djtab"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="80dp"
+                    android:background="#002a2a2a"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp" />
+
 
             </RelativeLayout>
         </LinearLayout>

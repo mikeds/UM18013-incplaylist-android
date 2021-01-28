@@ -1,7 +1,10 @@
 package com.incplaylist.incoriginalmedia
 
 import android.content.Context
+import org.json.JSONArray
+import org.json.JSONObject
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class Storage {
 
     fun setTheme(context: Context, data: String){
@@ -74,5 +77,17 @@ class Storage {
     fun isFirstTimeUser(context: Context):Boolean?{
         val sharedPreference =  context.getSharedPreferences("Data",Context.MODE_PRIVATE)
         return sharedPreference.getBoolean("firstTimer", true)
+    }
+
+    fun favorites(context: Context, trackdata:String){
+        val sharedPreference =  context.getSharedPreferences("Data",Context.MODE_PRIVATE)
+        val editor = sharedPreference.edit()
+        editor.putString("favorites",trackdata.toString())
+        editor.apply()
+    }
+
+    fun getFavorites(context: Context): String?{
+        val sharedPreference =  context.getSharedPreferences("Data",Context.MODE_PRIVATE)
+        return sharedPreference.getString("favorites", "")
     }
 }

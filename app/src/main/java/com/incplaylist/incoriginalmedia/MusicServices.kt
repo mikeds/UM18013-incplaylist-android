@@ -21,6 +21,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import okhttp3.OkHttpClient
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
@@ -116,18 +117,9 @@ class MusicServices : Service() , MediaPlayer.OnPreparedListener, MediaPlayer.On
             headers["Connection"] = "keep-alive"
             headers["Cache-control"] = "no-cache"
 
-            //var okHttpClient = OkHttpClient()
-            val builder: OkHttpClient.Builder = OkHttpClient.Builder()
-            builder.connectTimeout(5, TimeUnit.MINUTES) // connect timeout
-                    .writeTimeout(5, TimeUnit.MINUTES) // write timeout
-                    .readTimeout(5, TimeUnit.MINUTES) // read timeout
-                    .build()
-
-
-
-            //okHttpClient = builder.build()
 
             val uri: Uri = Uri.parse(url)
+
             if (mediaPlayer.isPlaying){
                 mediaPlayer.stop()
             }
@@ -136,7 +128,7 @@ class MusicServices : Service() , MediaPlayer.OnPreparedListener, MediaPlayer.On
             mediaPlayer.reset()
 
             //added headers to 01182021 build
-            mediaPlayer.setDataSource(this@MusicServices,uri)
+            mediaPlayer.setDataSource(this@MusicServices,uri,headers)
             mediaPlayer.apply {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 setOnPreparedListener(this@MusicServices)
@@ -150,6 +142,7 @@ class MusicServices : Service() , MediaPlayer.OnPreparedListener, MediaPlayer.On
         }catch (e:ProtocolException){
 
         }
+
         storage.setPlaying(application.applicationContext, true)
         val intent = Intent("home").putExtra("UI","preparing")
         application.applicationContext.sendBroadcast(intent)
@@ -168,10 +161,15 @@ class MusicServices : Service() , MediaPlayer.OnPreparedListener, MediaPlayer.On
 
     override fun onCompletion(p0: MediaPlayer) {
         //if dj cue
+
         val from = JSONObject(storage.getNowPlaying(application.applicationContext)!!).getString("from")
         if (from == "DJ"){
             play()
         }else{
+            if (mediaPlayer.isPlaying){
+                mediaPlayer.stop()
+            }
+            mediaPlayer.reset()
             nextSong()
         }
 
@@ -215,7 +213,10 @@ class MusicServices : Service() , MediaPlayer.OnPreparedListener, MediaPlayer.On
                 }
             }
         }else if(from == "Favorites"){
-            val allTracks = fetchFavorites()
+            var allTracks = JSONArray()
+            try {
+                allTracks = JSONArray(storage.getFavorites(context))
+            }catch (e:JSONException){}
             for (i in 0 until allTracks.length()){
                 if (id == allTracks.getJSONObject(i).getString("id")){
                     if (i >= allTracks.length()-1){

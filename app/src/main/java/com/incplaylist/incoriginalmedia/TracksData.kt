@@ -28,7 +28,7 @@ class TracksData {
                             val dir = File(context.filesDir, "elpaboritos")
                             val path = "$dir/$trackID.mp3"
                             tracks.put("stream_url", path)
-                            Log.e("plath", path)
+                            //Log.e("plath", path)
                             trackData = tracks
                             break
                         }
